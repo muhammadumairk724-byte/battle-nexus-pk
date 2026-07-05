@@ -1,3 +1,10 @@
-module.exports = (req, res) => {
-  res.status(200).json({ message: 'Hello from Vercel!' });
-};
+const express = require('express');
+const { getPool } = require('../config/db'); // just import, don't call
+
+const app = express();
+
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok' });
+});
+
+module.exports = app;
