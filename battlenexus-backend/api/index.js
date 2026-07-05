@@ -62,6 +62,18 @@ app.use('/api/user/stats', userStatsRoutes);
 app.use('/api/user/tournaments', userTournamentsRoutes);
 app.use('/api/user/wallet', walletRoutes);
 
+// ─── Cron endpoint (auto-update tournament status) ───
+app.post('/api/cron/update-tournaments', async (req, res) => {
+  try {
+    const { autoUpdateTournamentStatus } = require('../utils/tournamentScheduler');
+    await autoUpdateTournamentStatus();
+    res.json({ message: 'Tournament statuses updated' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ─── Error Handler ───
 app.use((err, req, res, next) => {
   console.error(err);
