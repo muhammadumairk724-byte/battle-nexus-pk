@@ -1,12 +1,17 @@
 const { getPool } = require('../config/db');
 
+/**
+ * Automatically updates tournaments from 'upcoming' to 'live'
+ * when the scheduled date_time has passed.
+ */
 exports.autoUpdateTournamentStatus = async () => {
   const pool = getPool();
-  // Update upcoming tournaments whose date_time has passed
-  await pool.query(
+  const [result] = await pool.query(
     `UPDATE tournaments 
      SET status = 'live' 
      WHERE status = 'upcoming' AND date_time <= NOW()`
   );
-  console.log('✅ Tournament statuses updated');
+  if (result.affectedRows > 0) {
+    console.log(`✅ ${result.affectedRows} tournament(s) auto‑updated to 'live'`);
+  }
 };

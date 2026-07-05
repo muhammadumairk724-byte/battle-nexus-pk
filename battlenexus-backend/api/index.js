@@ -4,8 +4,18 @@ const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const serverless = require('serverless-http');
-const { initDB, seedAdmin } = require('../config/db');
-const { autoUpdateTournamentStatus } = require('../utils/tournamentScheduler');
+
+// ─── Try loading modules ───
+let initDB, seedAdmin, autoUpdateTournamentStatus;
+try {
+  const db = require('../config/db');
+  initDB = db.initDB;
+  seedAdmin = db.seedAdmin;
+  const scheduler = require('../utils/tournamentScheduler');
+  autoUpdateTournamentStatus = scheduler.autoUpdateTournamentStatus;
+} catch (err) {
+  console.error('❌ Module load error:', err.message);
+}
 
 const app = express();
 
@@ -23,39 +33,46 @@ const limiter = rateLimit({
 app.use('/api/auth', limiter);
 app.use('/api/admin', limiter);
 
-// Routes
-const authRoutes = require('../routes/authRoutes');
-const adminRoutes = require('../routes/adminRoutes');
-const tournamentRoutes = require('../routes/tournamentRoutes');
-const leaderboardRoutes = require('../routes/leaderboardRoutes');
-const notificationRoutes = require('../routes/notificationRoutes');
-const userRoutes = require('../routes/userRoutes');
-const userStatsRoutes = require('../routes/userStatsRoutes');
-const userTournamentsRoutes = require('../routes/userTournamentsRoutes');
-const walletRoutes = require('../routes/walletRoutes');
+// ─── Routes (try/catch for each) ───
+try {
+  const authRoutes = require('../routes/authRoutes');
+  const adminRoutes = require('../routes/adminRoutes');
+  const tournamentRoutes = require('../routes/tournamentRoutes');
+  const leaderboardRoutes = require('../routes/leaderboardRoutes');
+  const notificationRoutes = require('../routes/notificationRoutes');
+  const userRoutes = require('../routes/userRoutes');
+  const userStatsRoutes = require('../routes/userStatsRoutes');
+  const userTournamentsRoutes = require('../routes/userTournamentsRoutes');
+  const walletRoutes = require('../routes/walletRoutes');
 
-app.use('/api/auth', authRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/tournaments', tournamentRoutes);
-app.use('/api/leaderboard', leaderboardRoutes);
-app.use('/api/notifications', notificationRoutes);
-app.use('/api/user', userRoutes);
-app.use('/api/user/stats', userStatsRoutes);
-app.use('/api/user/tournaments', userTournamentsRoutes);
-app.use('/api/user/wallet', walletRoutes);
+  app.use('/api/auth', authRoutes);
+  app.use('/api/admin', adminRoutes);
+  app.use('/api/tournaments', tournamentRoutes);
+  app.use('/api/leaderboard', leaderboardRoutes);
+  app.use('/api/notifications', notificationRoutes);
+  app.use('/api/user', userRoutes);
+  app.use('/api/user/stats', userStatsRoutes);
+  app.use('/api/user/tournaments', userTournamentsRoutes);
+  app.use('/api/user/wallet', walletRoutes);
+} catch (err) {
+  console.error('❌ Route load error:', err.message);
+}
 
 // Error handler
 const { errorHandler } = require('../middleware/errorHandler');
 app.use(errorHandler);
 
-// Health check
+// ─── Health check ───
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
-// Cron endpoint (for auto-updating tournament status)
+// ─── Cron endpoint ───
 app.post('/api/cron/update-tournaments', async (req, res) => {
   try {
+    if (!autoUpdateTournamentStatus) {
+      return res.status(500).json({ error: 'Scheduler not loaded' });
+    }
     await autoUpdateTournamentStatus();
     res.json({ message: 'Tournament statuses updated' });
   } catch (err) {
@@ -64,24 +81,33 @@ app.post('/api/cron/update-tournaments', async (req, res) => {
   }
 });
 
-// DB initialisation middleware
+// ─── DB initialisation ───
 let dbInitialized = false;
 const initializeDB = async () => {
-  if (!dbInitialized) {
+  if (!dbInitialized && initDB && seedAdmin) {
     await initDB();
     await seedAdmin();
     dbInitialized = true;
   }
 };
+
 app.use(async (req, res, next) => {
   try {
     await initializeDB();
     next();
   } catch (err) {
-    console.error('DB init error:', err);
+    console.error('❌ DB init error:', err);
     res.status(500).json({ error: 'Database connection failed' });
   }
 });
 
-// Export the handler for Vercel
+// ─── Export serverless handler ───
 module.exports.handler = serverless(app);
+
+// ─── Local development ───
+if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+  const PORT = process.env.PORT || 5002;
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running locally on port ${PORT}`);
+  });
+}
