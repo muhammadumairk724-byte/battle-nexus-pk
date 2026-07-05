@@ -1,7 +1,11 @@
 const express = require('express');
+const cors = require('cors');              // ← ADD THIS
 const { initDB, seedAdmin, getPool } = require('../config/db');
 
 const app = express();
+
+// ─── CORS (allow frontend domain) ───
+app.use(cors({ origin: process.env.CORS_ORIGIN || '*' }));
 
 // ─── Middleware ───
 app.use(express.json());
@@ -11,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 let dbReady = false;
 let dbError = null;
 
-// ─── Initialize DB asynchronously ───
+// ─── Initialize DB ───
 (async function init() {
   try {
     await initDB();
@@ -62,7 +66,7 @@ app.use('/api/user/stats', userStatsRoutes);
 app.use('/api/user/tournaments', userTournamentsRoutes);
 app.use('/api/user/wallet', walletRoutes);
 
-// ─── Cron endpoint (auto-update tournament status) ───
+// ─── Cron endpoint ───
 app.post('/api/cron/update-tournaments', async (req, res) => {
   try {
     const { autoUpdateTournamentStatus } = require('../utils/tournamentScheduler');
