@@ -5,7 +5,7 @@ const { initDB, seedAdmin, getPool } = require('../config/db');
 const app = express();
 
 // ─── CORS (allow frontend domain) ───
-app.use(cors({ origin: process.env.CORS_ORIGIN || '*' }));
+app.use(cors({ origin:"https://official-battle-nexus.netlify.app",credentials:true}));
 
 // ─── Middleware ───
 app.use(express.json());
