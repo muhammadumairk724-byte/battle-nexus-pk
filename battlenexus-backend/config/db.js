@@ -45,5 +45,9 @@ const seedAdmin = async () => {
   );
   console.log('✅ Admin account created with default credentials');
 };
-
+pool = await mysql.createPool({
+  // ... your existing options
+  connectTimeout: 5000,
+  acquireTimeout: 5000,
+});
 module.exports = { initDB, getPool, seedAdmin };
