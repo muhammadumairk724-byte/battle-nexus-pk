@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Battle Nexus PK</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        /* ── FIX: responsive navbar alignment ── */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #000;
+            height: 68px;
+            padding: 0 40px;
+            border-bottom: 1px solid #222;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        .header .logo {
+            flex: 0 0 auto;
+            color: #fff;
+            font-size: 24px;
+            font-weight: 700;
+            text-decoration: none;
+            letter-spacing: 1px;
+            font-family: 'Oswald', sans-serif;
+        }
+
+        .header .navbar {
+            flex: 1 1 auto;
+            display: flex;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-container {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: auto;
+        }
+
+        .nav-container .hamburger {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 5px;
+            background: transparent;
+            border: none;
+            padding: 4px 0;
+        }
+
+        .nav-container .hamburger span {
+            width: 25px;
+            height: 2px;
+            background: #fff;
+            border-radius: 2px;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .nav-container .icon-wrapper {
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .nav-container .auth-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 992px) {
+            .header .navbar {
+                display: none !important;
+            }
+
+            .nav-container .hamburger {
+                display: flex !important;
+            }
+
+            .nav-container .auth-buttons {
+                display: none !important;
+            }
+
+            .nav-container .icon-wrapper {
+                display: flex !important;
+            }
+
+            .header {
+                padding: 0 20px;
+            }
+
+            .nav-container {
+                gap: 8px;
+            }
+
+            .nav-container .hamburger {
+                order: 10;
+            }
+
+            .nav-container .icon-wrapper#profileIcon {
+                order: 1;
+            }
+
+            .nav-container .icon-wrapper#bellIcon {
+                order: 2;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 0 12px;
+                height: 60px;
+            }
+
+            .header .logo {
+                font-size: 18px;
+            }
+
+            .nav-container {
+                gap: 6px;
+            }
+
+            .nav-container .hamburger span {
+                width: 22px;
+                height: 2px;
+            }
+
+            .nav-container .icon-wrapper .icon {
+                width: 26px;
+                height: 18px;
+            }
+        }
+
+        .profile-dropdown {
+            position: fixed;
+            z-index: 2000;
+        }
+
+        .auth-hidden {
+            display: none !important;
+        }
+
+        .nav-container .icon-wrapper .status-dot {
+            position: absolute;
+            top: -3px;
+            right: 2px;
+            width: 10px;
+            height: 10px;
+            background: #ff5f1f;
+            border-radius: 50%;
+            animation: pulse-intensity 1.5s infinite alternate ease-in-out;
+        }
+
+        @keyframes pulse-intensity {
+            0% {
+                opacity: 0.3;
+                transform: scale(0.85);
+                box-shadow: 0 0 0px rgba(255, 95, 31, 0);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1.1);
+                box-shadow: 0 0 10px rgba(255, 95, 31, 0.7);
+            }
+        }
+
+        .nav-container .icon-wrapper .icon {
+            width: 32px;
+            height: 20px;
+            fill: none;
+            stroke: #d1d1d1;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: stroke 0.3s ease;
+        }
+
+        .nav-container .icon-wrapper:hover .bell-icon {
+            stroke: #425af8;
+        }
+
+        .nav-container .icon-wrapper:hover .user-icon {
+            stroke: #ff7b00;
+        }
+
+        .nav-container .login-btn {
+            background: transparent;
+            color: #ff7b00;
+            border: 2px solid #ff7b00;
+            padding: 7px 20px;
+            font-size: 15px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .nav-container .login-btn:hover {
+            background: rgba(255, 123, 0, 0.15);
+            box-shadow: 0 0 20px rgba(255, 123, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-container .registration-btn {
+            background: #ff7b00;
+            padding: 7px 20px;
+            font-size: 15px;
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            box-shadow: 0 0 20px rgba(255, 140, 0, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.8);
+            transition: transform 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            animation: btn-pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes btn-pulse {
+            0% {
+                box-shadow: 0 0 20px rgba(255, 140, 0, 0.6);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(255, 140, 0, 0.9);
+            }
+
+            100% {
+                box-shadow: 0 0 20px rgba(255, 140, 0, 0.6);
+            }
+        }
+
+        .nav-container .registration-btn:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <a href="index.html" class="logo">FREE FIRE</a>
+        <nav class="navbar">
+            <a href="index.html" class="nav-link">Home</a>
+            <div class="nav-item">
+                <a href="#" class="nav-link">
+                    Tournaments
+                    <svg class="chevron" viewBox="0 0 24 24">
+                        <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </a>
+                <div class="dropdown-menu">
+                    <a href="#" class="dropdown-item" data-filter="format" data-value="solo">Solo<p>1v1 battles</p></a>
+                    <a href="#" class="dropdown-item" data-filter="format" data-value="duo">Duo<p>2v2 matches</p></a>
+                    <a href="#" class="dropdown-item" data-filter="format" data-value="squad">Squad<p>4v4 team wars</p>
+                        </a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link">
+                    Map Schedule
+                    <svg class="chevron" viewBox="0 0 24 24">
+                        <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </a>
+                <div class="dropdown-menu">
+                    <a href="#" class="dropdown-item" data-filter="map" data-value="bermuda">Bermuda</a>
+                    <a href="#" class="dropdown-item" data-filter="map" data-value="purgatory">Purgatory</a>
+                    <a href="#" class="dropdown-item" data-filter="map" data-value="kalahari">Kalahari</a>
+                    <a href="#" class="dropdown-item" data-filter="map" data-value="alpine">Alpine</a>
+                </div>
+            </div>
+            <a href="#" class="nav-link" id="navLive">Live</a>
+            <a href="#leaderboard" class="nav-link" id="navLeaderboard">Leaderboard</a>
+        </nav>
+        <div class="nav-container">
+            <div class="icon-wrapper" id="profileIcon">
+                <svg class="icon user-icon" viewBox="0 0 24 24">
+                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                </svg>
+            </div>
+            <div class="icon-wrapper" id="bellIcon">
+                <svg class="icon bell-icon" viewBox="0 0 24 24">
+                    <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                    <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+                </svg>
+                <div class="status-dot"></div>
+            </div>
+            <div class="auth-buttons" id="authButtons">
+                <a href="login.html" class="login-btn">Login</a>
+                <a href="register.html" class="registration-btn">Sign Up</a>
+            </div>
+            <div class="hamburger" id="hamburgerMobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== NOTIFICATION PANEL ===== -->
+    <div class="notification-panel" id="notificationPanel">
+        <div class="notification-header">
+            <span>Notifications</span>
+            <button class="close-notification" id="closeNotification">&times;</button>
+        </div>
+        <div class="notification-list" id="notificationList"></div>
+    </div>
+
+    <!-- ===== PROFILE DROPDOWN ===== -->
+    <div class="profile-dropdown" id="profileDropdown">
+        <a href="dashboard.html" class="dropdown-item-link" data-protected="true"><i class="fas fa-tachometer-alt"></i>
+            Dashboard</a>
+        <a href="my-tournaments.html" class="dropdown-item-link" data-protected="true"><i class="fas fa-trophy"></i> My
+            Tournaments</a>
+        <a href="profile.html" class="dropdown-item-link" data-protected="true"><i class="fas fa-user"></i> My
+            Profile</a>
+        <a href="wallet.html" class="dropdown-item-link" data-protected="true"><i class="fas fa-wallet"></i> Wallet</a>
+        <a href="settings.html" class="dropdown-item-link" data-protected="true"><i class="fas fa-cog"></i> Settings</a>
+         <a href="admin-panel.html" class="dropdown-item-link" id="adminPanelLink" style="display:none; color:#ff7b00;"><i class="fas fa-crown"></i> Admin Panel</a>
+        <div class="dropdown-divider"></div>
+        <a href="#" class="dropdown-item-link logout-item" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <!-- ===== MOBILE OVERLAY ===== -->
+    <div class="mobile-overlay" id="mobileOverlay">
+    <div class="backdrop-close" id="backdropClose"></div>
+    <div class="mobile-menu-panel">
+        <div class="mobile-menu-header">
+            <span class="mobile-menu-title">MENU</span>
+            <span class="close-btn-panel" id="closeBtnPanel">&times;</span>
+        </div>
+        <div class="mobile-menu-body">
+            <div class="m-section">
+                <a href="index.html" class="m-link">
+                    <i class="fas fa-home m-icon"></i>
+                    <span>Home</span>
+                </a>
+            </div>
+            <div class="m-section" id="mobileTournaments">
+                <a href="#" class="m-link" id="toggleTournaments">
+                    <i class="fas fa-trophy m-icon"></i>
+                    <span>Tournaments</span>
+                </a>
+                <div class="m-sub-container" id="tournamentsSub">
+                    <a href="#" class="m-sub" data-filter="format" data-value="solo">Solo</a>
+                    <a href="#" class="m-sub" data-filter="format" data-value="duo">Duo</a>
+                    <a href="#" class="m-sub" data-filter="format" data-value="squad">Squad</a>
+                </div>
+            </div>
+            <div class="m-section" id="mobileSchedule">
+                <a href="#" class="m-link" id="toggleSchedule">
+                    <i class="fas fa-map m-icon"></i>
+                    <span>Map Schedule</span>
+                </a>
+                <div class="m-sub-container" id="scheduleSub">
+                    <a href="#" class="m-sub" data-filter="map" data-value="bermuda">Bermuda</a>
+                    <a href="#" class="m-sub" data-filter="map" data-value="purgatory">Purgatory</a>
+                    <a href="#" class="m-sub" data-filter="map" data-value="kalahari">Kalahari</a>
+                    <a href="#" class="m-sub" data-filter="map" data-value="alpine">Alpine</a>
+                </div>
+            </div>
+            <div class="m-section">
+                <a href="#" class="m-link" id="mobileLive">
+                    <i class="fas fa-broadcast m-icon"></i>
+                    <span>Live</span>
+                </a>
+            </div>
+            <div class="m-section">
+                <a href="#leaderboard" class="m-link" id="mobileLeaderboard">
+                    <i class="fas fa-chart-simple m-icon"></i>
+                    <span>Leaderboard</span>
+                </a>
+            </div>
+            <!-- ✅ ADMIN PANEL LINK – Hidden by default, shown only to admin -->
+            <div class="m-section">
+                <a href="admin-panel.html" class="m-link" id="mobileAdminLink" style="display:none;">
+                    <i class="fas fa-crown m-icon" style="color:#ff7b00;"></i>
+                    <span style="color:#ff7b00;">Admin Panel</span>
+                </a>
+            </div>
+        </div>
+        <div class="mobile-menu-footer" id="mobileAuthFooter">
+            <a href="login.html" class="login-btn mobile-auth-btn" id="mobileLoginBtn">Login</a>
+            <a href="register.html" class="registration-btn mobile-auth-btn" id="mobileRegisterBtn">Sign Up</a>
+            <a href="#" class="mobile-profile-link auth-hidden" id="mobileLogoutBtn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </div>
+</div>
+
+    <!-- ===== LOGIN REQUIRED MODAL ===== -->
+    <div class="login-required-overlay" id="loginRequiredModal">
+        <div class="login-required-modal">
+            <div class="login-required-icon"><i class="fas fa-lock"></i></div>
+            <h2>Login Required</h2>
+            <p>You need to log in before accessing this feature.</p>
+            <div class="login-required-buttons">
+                <a href="login.html" class="btn-primary-modal">Login</a>
+                <a href="register.html" class="btn-secondary-modal">Sign Up</a>
+                <button class="btn-cancel-modal" id="cancelLoginRequired">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PAGE CONTAINER ===== -->
+    <div class="page-container">
+        <div class="tournament-banner">
+            <div class="server-badge">
+                <span class="badge-dot"></span>
+                <span class="badge-text">PK Official PK Server Tournaments</span>
+            </div>
+            <div class="heading-group">
+                <div class="text-dominate">Dominate</div>
+                <div class="text-orange-glow">The</div>
+                <div class="text-orange-glow">Battlefield</div>
+                <div class="text-premier">Pakistan's Premier</div>
+                <div class="text-cyan-glow">Leagues</div>
+            </div>
+            <p class="description-text">Solo, Duo, and Squad tournaments across all maps. Register now to claim your
+                glory and <span class="highlight-yellow">massive PKR prize pools.</span></p>
+            <div class="action-buttons">
+                <a href="#tournament-container" class="join-btn" data-protected="true"><span class="btn-content">🔥 JOIN
+                        TOURNAMENT</span></a>
+                <a href="#tournament-container" class="btn-schedule">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    View Schedule
+                </a>
+            </div>
+        </div>
+        <div class="right-section">
+            <div class="ui-wrapper">
+                <div class="bg-circle circle-lg"></div>
+                <div class="bg-circle circle-md"></div>
+                <div class="bg-circle circle-sm"></div>
+                <div class="card">
+                    <div id="custom-carousel" class="relative w-full h-full">
+                        <div class="relative h-full overflow-hidden">
+                            <div class="carousel-item h-full" data-index="0">
+                                <div class="tag-booyah">BOOYAH!</div>
+                                <img src="https://placehold.co/240x330/0a0a0a/ff4500?text=FREE+FIRE" alt="Free Fire" />
+                                <div class="char-label">
+                                    <p class="player-card-color">FREE FIRE</p>
+                                </div>
+                                <div class="tag-rank">#1 PK</div>
+                            </div>
+                            <div class="carousel-item hidden h-full" data-index="1">
+                                <div class="tag-booyah">BOOYAH!</div>
+                                <img src="https://placehold.co/240x330/0a0a0a/ff4500?text=ALOK" alt="Alok" />
+                                <div class="char-label">
+                                    <p class="player-card-color">ALOK</p>
+                                </div>
+                                <div class="tag-rank">#1 PK</div>
+                            </div>
+                            <div class="carousel-item hidden h-full" data-index="2">
+                                <div class="tag-booyah">BOOYAH!</div>
+                                <img src="https://placehold.co/240x330/0a0a0a/ff4500?text=SKYLER" alt="Skyler" />
+                                <div class="char-label">
+                                    <p class="player-card-color">SKYLER</p>
+                                </div>
+                                <div class="tag-rank">#1 PK</div>
+                            </div>
+                            <div class="carousel-item hidden h-full" data-index="3">
+                                <div class="tag-booyah">BOOYAH!</div>
+                                <img src="https://placehold.co/240x330/0a0a0a/ff4500?text=HAYATO" alt="Hayato" />
+                                <div class="char-label">
+                                    <p class="player-card-color">HAYATO</p>
+                                </div>
+                                <div class="tag-rank">#1 PK</div>
+                            </div>
+                        </div>
+                        <button id="prevBtn" class="nav-btn left-2"><span class="btn-icon"><svg fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                        d="m15 19-7-7 7-7" />
+                                </svg></span></button>
+                        <button id="nextBtn" class="nav-btn right-2"><span class="btn-icon"><svg fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                        d="m9 5 7 7-7 7" />
+                                </svg></span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== TOURNAMENT LOBBY ===== -->
+    <div id="tournament-container" class="tournament-container">
+        <div class="stats-row">
+            <div class="stat-item">
+                <div class="stat-number">5,000+</div>
+                <div class="stat-label">ACTIVE PLAYERS</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">Daily</div>
+                <div class="stat-label">MATCHES</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">Instant</div>
+                <div class="stat-label">PKR PAYOUTS</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">#1</div>
+                <div class="stat-label">PK SERVER</div>
+            </div>
+        </div>
+        <div class="lobby-badge"><span class="lightning-icon">⚡</span> TOURNAMENT LOBBY</div>
+        <h1 class="main-title"><span class="text-white">ACTIVE</span> <span class="text-orange">TOURNAMENTS</span></h1>
+        <p class="subtitle">Join ongoing matches or register for upcoming battles across Pakistan</p>
+    </div>
+
+    <!-- ===== FILTERS ===== -->
+    <div class="filters-container">
+        <div class="filter-group">
+            <span class="filter-label">FORMAT:</span>
+            <div class="filter-buttons" id="format-filters">
+                <button class="btn-filter format-active" data-filter="all">ALL</button>
+                <button class="btn-filter" data-filter="solo">SOLO</button>
+                <button class="btn-filter" data-filter="duo">DUO</button>
+                <button class="btn-filter" data-filter="squad">SQUAD</button>
+            </div>
+        </div>
+        <div class="filter-group">
+            <span class="filter-label">MAP:</span>
+            <div class="filter-buttons" id="map-filters">
+                <button class="btn-filter map-active" data-filter="all">ALL</button>
+                <button class="btn-filter" data-filter="bermuda">BERMUDA</button>
+                <button class="btn-filter" data-filter="purgatory">PURGATORY</button>
+                <button class="btn-filter" data-filter="kalahari">KALAHARI</button>
+                <button class="btn-filter" data-filter="alpine">ALPINE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== TOURNAMENT CARDS ===== -->
+    <div class="cards-grid" id="cards-container">
+        <!-- Card 1 -->
+        <div class="tournament-card" data-format="squad" data-map="bermuda">
+            <div class="card-header">
+                <div class="badge-status badge-live">
+                    <div class="status-dot-card"></div> LIVE
+                </div>
+                <div class="badge-format color-squad">SQUAD</div>
+                <div class="map-info"><svg viewBox="0 0 24 24">
+                        <path
+                            d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                    </svg>
+                    <div class="map-name">Bermuda</div>
+                </div>
+            </div>
+            <div class="card-body">
+                <h3 class="tournament-title">Battle Royale Open</h3>
+                <div class="prize-pool-container"><span class="prize-amount">Rs 50,000</span><span
+                        class="prize-label">Prize Pool</span></div>
+                <div class="details-row">
+                    <div class="detail-item"><svg viewBox="0 0 24 24">
+                            <path
+                                d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+                        </svg>9:00 PM PKT</div>
+                    <div class="detail-item" style="color:#ffcc00;"><svg viewBox="0 0 24 24" style="fill:#ffcc00;">
+                            <path
+                                d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 9h-2V7h-2v5H6v2h2v5h2v-5h2v-2z" />
+                        </svg>200 PKR</div>
+                </div>
+                <div class="details-row">
+                    <div class="detail-item"><svg viewBox="0 0 24 24">
+                            <path
+                                d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+                        </svg>40/48 Players</div>
+                    <div class="detail-item highlight-text">8 slots left</div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width:83.3%;"></div>
+                </div>
+                <a href="./tournament-registration-terms.html" target="_blank" rel="noopener noreferrer"><button
+                        class="btn-register-tournament" data-protected="true">REGISTER &gt;</button></a>
+            </div>
+        </div>
+        <!-- Card 2 -->
+        <div class="tournament-card" data-format="solo" data-map="purgatory">
+            <div class="card-header">
+                <div class="badge-status badge-upcoming">
+                    <div class="status-dot-card"></div> UPCOMING
+                </div>
+                <div class="badge-format color-solo">SOLO</div>
+                <div class="map-info"><svg viewBox="0 0 24 24">
+                        <path
+                            d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                    </svg>
+                    <div class="map-name">Purgatory</div>
+                </div>
+            </div>
+            <div class="card-body">
+                <h3 class="tournament-title">Desert Storm Cup</h3>
+                <div class="prize-pool-container"><span class="prize-amount">Rs 15,000</span><span
+                        class="prize-label">Prize Pool</span></div>
+                <div class="details-row">
+                    <div class="detail-item"><svg viewBox="0 0 24 24">
+                            <path
+                                d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+                        </svg>10:30 PM PKT</div>
+                    <div class="detail-item" style="color:#ffcc00;"><svg viewBox="0 0 24 24" style="fill:#ffcc00;">
+                            <path
+                                d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 9h-2V7h-2v5H6v2h2v5h2v-5h2v-2z" />
+                        </svg>100 PKR</div>
+                </div>
+                <div class="details-row">
+                    <div class="detail-item"><svg viewBox="0 0 24 24">
+                            <path
+                                d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+                        </svg>28/48 Players</div>
+                    <div class="detail-item highlight-text">20 slots left</div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width:58.3%;"></div>
+                </div>
+                <a href="./tournament-registration-terms.html" target="_blank" rel="noopener noreferrer"><button
+                        class="btn-register-tournament" data-protected="true">REGISTER &gt;</button></a>
+            </div>
+        </div>
+        <!-- Card 3 -->
+        <div class="tournament-card" data-format="duo" data-map="kalahari">
+            <div class="card-header">
+                <div class="badge-status badge-live">
+                    <div class="status-dot-card"></div> LIVE
+                </div>
+                <div class="badge-format color-duo">DUO</div>
+                <div class="map-info"><svg viewBox="0 0 24 24">
+                        <path
+                            d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                    </svg>
+                    <div class="map-name">Kalahari</div>
+                </div>
+            </div>
+            <div class="card-body">
+                <h3 class="tournament-title">Duo Clash Series</h3>
+                <div class="prize-pool-container"><span class="prize-amount">Rs 25,000</span><span
+                        class="prize-label">Prize Pool</span></div>
+                <div class="details-row">
+                    <div class="detail-item"><svg viewBox="0 0 24 24">
+                            <path
+                                d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+                        </svg>8:00 PM PKT</div>
+                    <div class="detail-item" style="color:#ffcc00;"><svg viewBox="0 0 24 24" style="fill:#ffcc00;">
+                            <path
+                                d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 9h-2V7h-2v5H6v2h2v5h2v-5h2v-2z" />
+                        </svg>150 PKR</div>
+                </div>
+                <div class="details-row">
+                    <div class="detail-item"><svg viewBox="0 0 24 24">
+                            <path
+                                d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+                        </svg>20/24 Players</div>
+                    <div class="detail-item highlight-text">4 slots left</div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width:83.3%;"></div>
+                </div>
+                <a href="./tournament-registration-terms.html" target="_blank" rel="noopener noreferrer"><button
+                        class="btn-register-tournament" data-protected="true">REGISTER &gt;</button></a>
+            </div>
+        </div>
+        <!-- Card 4 -->
+        <div class="tournament-card" data-format="squad" data-map="alpine">
+            <div class="card-header">
+                <div class="badge-status badge-upcoming">
+                    <div class="status-dot-card"></div> UPCOMING
+                </div>
+                <div class="badge-format color-squad">SQUAD</div>
+                <div class="map-info"><svg viewBox="0 0 24 24">
+                        <path
+                            d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                    </svg>
+                    <div class="map-name">Alpine</div>
+                </div>
+            </div>
+            <div class="card-body">
+                <h3 class="tournament-title">Alpine Championship</h3>
+                <div class="prize-pool-container"><span class="prize-amount">Rs 100,000</span><span
+                        class="prize-label">Prize Pool</span></div>
+                <div class="details-row">
+                    <div class="detail-item"><svg viewBox="0 0 24 24">
+                            <path
+                                d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+                        </svg>7:00 PM PKT</div>
+                    <div class="detail-item" style="color:#ffcc00;"><svg viewBox="0 0 24 24" style="fill:#ffcc00;">
+                            <path
+                                d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 9h-2V7h-2v5H6v2h2v5h2v-5h2v-2z" />
+                        </svg>500 PKR</div>
+                </div>
+                <div class="details-row">
+                    <div class="detail-item"><svg viewBox="0 0 24 24">
+                            <path
+                                d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+                        </svg>12/48 Players</div>
+                    <div class="detail-item highlight-text">36 slots left</div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width:25%;"></div>
+                </div>
+                <a href="./tournament-registration-terms.html" target="_blank" rel="noopener noreferrer"><button
+                        class="btn-register-tournament" data-protected="true">REGISTER &gt;</button></a>
+            </div>
+        </div>
+        <!-- Card 5 -->
+        <div class="tournament-card" data-format="solo" data-map="bermuda">
+            <div class="card-header">
+                <div class="badge-status badge-upcoming">
+                    <div class="status-dot-card"></div> UPCOMING
+                </div>
+                <div class="badge-format color-solo">SOLO</div>
+                <div class="map-info"><svg viewBox="0 0 24 24">
+                        <path
+                            d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                    </svg>
+                    <div class="map-name">Bermuda</div>
+                </div>
+            </div>
+            <div class="card-body">
+                <h3 class="tournament-title">PK Solo League</h3>
+                <div class="prize-pool-container"><span class="prize-amount">Rs 20,000</span><span
+                        class="prize-label">Prize Pool</span></div>
+                <div class="details-row">
+                    <div class="detail-item"><svg viewBox="0 0 24 24">
+                            <path
+                                d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+                        </svg>11:00 PM PKT</div>
+                    <div class="detail-item" style="color:#ffcc00;"><svg viewBox="0 0 24 24" style="fill:#ffcc00;">
+                            <path
+                                d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 9h-2V7h-2v5H6v2h2v5h2v-5h2v-2z" />
+                        </svg>100 PKR</div>
+                </div>
+                <div class="details-row">
+                    <div class="detail-item"><svg viewBox="0 0 24 24">
+                            <path
+                                d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+                        </svg>45/48 Players</div>
+                    <div class="detail-item highlight-text">3 slots left</div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width:93.7%;"></div>
+                </div>
+                <a href="./tournament-registration-terms.html" target="_blank" rel="noopener noreferrer"><button
+                        class="btn-register-tournament" data-protected="true">REGISTER &gt;</button></a>
+            </div>
+        </div>
+        <!-- Card 6 -->
+        <div class="tournament-card" data-format="duo" data-map="purgatory">
+            <div class="card-header">
+                <div class="badge-status badge-live">
+                    <div class="status-dot-card"></div> LIVE
+                </div>
+                <div class="badge-format color-duo">DUO</div>
+                <div class="map-info"><svg viewBox="0 0 24 24">
+                        <path
+                            d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                    </svg>
+                    <div class="map-name">Purgatory</div>
+                </div>
+            </div>
+            <div class="card-body">
+                <h3 class="tournament-title">Sand Warriors</h3>
+                <div class="prize-pool-container"><span class="prize-amount">Rs 30,000</span><span
+                        class="prize-label">Prize Pool</span></div>
+                <div class="details-row">
+                    <div class="detail-item"><svg viewBox="0 0 24 24">
+                            <path
+                                d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
+                        </svg>6:30 PM PKT</div>
+                    <div class="detail-item" style="color:#ffcc00;"><svg viewBox="0 0 24 24" style="fill:#ffcc00;">
+                            <path
+                                d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 9h-2V7h-2v5H6v2h2v5h2v-5h2v-2z" />
+                        </svg>200 PKR</div>
+                </div>
+                <div class="details-row">
+                    <div class="detail-item"><svg viewBox="0 0 24 24">
+                            <path
+                                d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
+                        </svg>22/24 Players</div>
+                    <div class="detail-item highlight-text">2 slots left</div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width:91.6%;"></div>
+                </div>
+                <a href="./tournament-registration-terms.html" target="_blank" rel="noopener noreferrer"><button
+                        class="btn-register-tournament" data-protected="true">REGISTER &gt;</button></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== HALL OF FAME ===== -->
+    <div class="hall-of-fame" id="hall-of-fame">
+        <div class="hof-badge"><i class="fas fa-trophy trophy-icon"></i><span class="hof-badge-text">Hall of Fame</span>
+        </div>
+        <div class="hof-title">PAKISTAN'S <span class="highlight-gold">LEGENDS</span></div>
+        <div class="hof-subtitle"><i class="fas fa-fire"></i> Top Free Fire players on the PK server</div>
+        <div class="hof-divider"></div>
+    </div>
+
+    <!-- ===== LEADERBOARD ===== -->
+    <div id="leaderboard" class="leaderboard-container">
+        <div class="leaderboard-card rank-1">
+            <div class="rank-circle">1st</div>
+            <div class="icon-wrapper-leader"><span>👑</span></div>
+            <h2 class="player-name">DragonSlayer_PK</h2>
+            <div class="score-container">
+                <h1 class="score-main">12,400</h1><span class="score-sub">Total Points</span>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-val-kills"><span class="icon-small">⚔️</span> 1,842</div>
+                    <div class="stat-label-leader">KILLS</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-val-booyah"><span class="icon-small">🏆</span> 234</div>
+                    <div class="stat-label-leader">BOOYAHS</div>
+                </div>
+            </div>
+        </div>
+        <div class="leaderboard-card rank-2">
+            <div class="rank-circle">2nd</div>
+            <div class="icon-wrapper-leader"><span>🥈</span></div>
+            <h2 class="player-name">NightHawk99</h2>
+            <div class="score-container">
+                <h1 class="score-main">11,200</h1><span class="score-sub">Total Points</span>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-val-kills"><span class="icon-small">⚔️</span> 1,650</div>
+                    <div class="stat-label-leader">KILLS</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-val-booyah"><span class="icon-small">🏆</span> 198</div>
+                    <div class="stat-label-leader">BOOYAHS</div>
+                </div>
+            </div>
+        </div>
+        <div class="leaderboard-card rank-3">
+            <div class="rank-circle">3rd</div>
+            <div class="icon-wrapper-leader"><span>🥉</span></div>
+            <h2 class="player-name">ShadowBeast_KHI</h2>
+            <div class="score-container">
+                <h1 class="score-main">10,600</h1><span class="score-sub">Total Points</span>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-val-kills"><span class="icon-small">⚔️</span> 1,520</div>
+                    <div class="stat-label-leader">KILLS</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-val-booyah"><span class="icon-small">🏆</span> 176</div>
+                    <div class="stat-label-leader">BOOYAHS</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== RANKING TABLE ===== -->
+    <div class="ranking-table-container">
+        <table class="ranking-table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Player / IGN</th>
+                    <th>Kills</th>
+                    <th>Wins</th>
+                    <th>Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="rank-num">#4</td>
+                    <td class="rank-name">FireStorm_LHR</td>
+                    <td class="rank-stats">1,410</td>
+                    <td class="rank-stats">152</td>
+                    <td class="rank-stats">9,800</td>
+                </tr>
+                <tr>
+                    <td class="rank-num">#5</td>
+                    <td class="rank-name">GhostHunter_ISB</td>
+                    <td class="rank-stats">1,380</td>
+                    <td class="rank-stats">145</td>
+                    <td class="rank-stats">9,200</td>
+                </tr>
+                <tr>
+                    <td class="rank-num">#6</td>
+                    <td class="rank-name">BladeRunner77</td>
+                    <td class="rank-stats">1,290</td>
+                    <td class="rank-stats">138</td>
+                    <td class="rank-stats">8,900</td>
+                </tr>
+                <tr>
+                    <td class="rank-num">#7</td>
+                    <td class="rank-name">ChaosKing_PK</td>
+                    <td class="rank-stats">1,240</td>
+                    <td class="rank-stats">121</td>
+                    <td class="rank-stats">8,400</td>
+                </tr>
+                <tr>
+                    <td class="rank-num">#8</td>
+                    <td class="rank-name">StormTrooper99</td>
+                    <td class="rank-stats">1,180</td>
+                    <td class="rank-stats">115</td>
+                    <td class="rank-stats">7,900</td>
+                </tr>
+                <tr>
+                    <td class="rank-num">#9</td>
+                    <td class="rank-name">PhoenixRising_KHI</td>
+                    <td class="rank-stats">1,100</td>
+                    <td class="rank-stats">108</td>
+                    <td class="rank-stats">7,400</td>
+                </tr>
+                <tr>
+                    <td class="rank-num">#10</td>
+                    <td class="rank-name">IronFist_LHR</td>
+                    <td class="rank-stats">1,050</td>
+                    <td class="rank-stats">98</td>
+                    <td class="rank-stats">6,900</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ===== COMMUNITY ===== -->
+    <section class="community">
+        <div class="left">
+            <h1>NEVER MISS A <span>BOOYAH!</span></h1>
+            <p>Join <strong>5,000+</strong> Pakistani players in our official community groups.</p>
+        </div>
+        <div class="right-community">
+            <a href="https://whatsapp.com/channel/0029Vb7tJlN17Emn6YaDrU1L" class="btn-community whatsapp"
+                target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i> JOIN WHATSAPP <i
+                    class="fa-solid fa-arrow-up-right-from-square small"></i></a>
+            <a href="https://discord.com/channels/1520363269028712508/1520363269620240515" class="btn-community discord"
+                target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-discord"></i> DISCORD SERVER <i
+                    class="fa-solid fa-arrow-up-right-from-square small"></i></a>
+            <a href="https://www.youtube.com/@BN-PK" class="btn-community youtube" target="_blank"
+                rel="noopener noreferrer"><i class="fa-brands fa-youtube"></i> WATCH LIVE <i
+                    class="fa-solid fa-arrow-up-right-from-square small"></i></a>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-about">
+                <div class="logo"><img class="logo-img" src="https://placehold.co/220x60/111/ff7b00?text=FREE+FIRE+PK"
+                        alt="Free Fire PK" /></div>
+                <p>Pakistan's #1 destination for competitive Free Fire tournaments. Join the battle, claim your glory.
+                </p>
+                <div class="server-status"><span class="dot"></span> SERVER: ONLINE</div>
+            </div>
+            <div class="footer-links">
+                <h3>QUICK LINKS</h3>
+                <ul>
+                    <li><a href="index.html" target="_blank">Home</a></li>
+                    <li><a href="#" id="footerTournaments">Tournaments</a></li>
+                    <li><a href="#" id="footerLeaderboard">Leaderboard</a></li>
+                    <li><a href="#" id="footerMapSchedule">Map Schedule</a></li>
+                </ul>
+            </div>
+            <div class="footer-links support">
+                <h3>SUPPORT</h3>
+                <ul>
+                    <li><a href="./how-to-join.html" target="_blank">How to Join</a></li>
+                    <li><a href="./privacy.html" target="_blank">Rules &amp; Regulations</a></li>
+                    <li><a href="./good-environment.html" target="_blank">Fair Play Policy</a></li>
+                    <li><a href="./talk.html" target="_blank">Contact Us</a></li>
+                    <li><a href="./faq.html" target="_blank">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-links formats">
+                <h3>FORMATS</h3>
+                <ul>
+                    <li><a href="#" id="footerSolo">Solo Battles</a></li>
+                    <li><a href="#" id="footerDuo">Duo Clashes</a></li>
+                    <li><a href="#" id="footerSquad">Squad Leagues</a></li>
+                    <li><a href="./map-rotations.html" target="_blank">Map Rotations</a></li>
+                    <li><a href="./prize-structure.html" target="_blank">Prize Structure</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="copyright">&copy; 2026 <span>FreeFire PK</span>. Created for the Pakistani Gaming Community. PK
+            </div>
+            <div class="payments">
+                <a href="#" class="pay-btn easy"><i class="fa-solid fa-shield"></i> EasyPaisa</a>
+                <a href="#" class="pay-btn jazz"><i class="fa-solid fa-shield"></i> JazzCash</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

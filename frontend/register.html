@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Battle Nexus · Sign Up</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        /* same navbar fix as login */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #000;
+            height: 68px;
+            padding: 0 40px;
+            border-bottom: 1px solid #222;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        .header .logo {
+            flex: 0 0 auto;
+            color: #fff;
+            font-size: 24px;
+            font-weight: 700;
+            text-decoration: none;
+            letter-spacing: 1px;
+            font-family: 'Oswald', sans-serif;
+        }
+
+        .header .navbar {
+            flex: 1 1 auto;
+            display: flex;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-container {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: auto;
+        }
+
+        .nav-container .hamburger {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 5px;
+            background: transparent;
+            border: none;
+            padding: 4px 0;
+        }
+
+        .nav-container .hamburger span {
+            width: 25px;
+            height: 2px;
+            background: #fff;
+            border-radius: 2px;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .nav-container .auth-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 992px) {
+            .header .navbar {
+                display: none !important;
+            }
+
+            .nav-container .hamburger {
+                display: flex !important;
+            }
+
+            .nav-container .auth-buttons {
+                display: none !important;
+            }
+
+            .header {
+                padding: 0 20px;
+            }
+
+            .nav-container {
+                gap: 8px;
+            }
+
+            .nav-container .hamburger {
+                order: 10;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 0 12px;
+                height: 60px;
+            }
+
+            .header .logo {
+                font-size: 18px;
+            }
+
+            .nav-container {
+                gap: 6px;
+            }
+
+            .nav-container .hamburger span {
+                width: 22px;
+                height: 2px;
+            }
+        }
+
+        .nav-container .login-btn {
+            background: transparent;
+            color: #ff7b00;
+            border: 2px solid #ff7b00;
+            padding: 7px 20px;
+            font-size: 15px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .nav-container .login-btn:hover {
+            background: rgba(255, 123, 0, 0.15);
+            box-shadow: 0 0 20px rgba(255, 123, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-container .registration-btn {
+            background: #ff7b00;
+            padding: 7px 20px;
+            font-size: 15px;
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            box-shadow: 0 0 20px rgba(255, 140, 0, 0.6), inset 0 2px 5px rgba(255, 255, 255, 0.8);
+            transition: transform 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            animation: btn-pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes btn-pulse {
+            0% {
+                box-shadow: 0 0 20px rgba(255, 140, 0, 0.6);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(255, 140, 0, 0.9);
+            }
+
+            100% {
+                box-shadow: 0 0 20px rgba(255, 140, 0, 0.6);
+            }
+        }
+
+        .nav-container .registration-btn:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <a href="index.html" class="logo">FREE FIRE</a>
+        <nav class="navbar">
+            <a href="index.html" class="nav-link">Home</a>
+            <div class="nav-item">
+                <a href="#" class="nav-link">
+                    Tournaments
+                    <svg class="chevron" viewBox="0 0 24 24">
+                        <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </a>
+                <div class="dropdown-menu">
+                    <a href="#" class="dropdown-item">Solo<p>1v1 battles</p></a>
+                    <a href="#" class="dropdown-item">Duo<p>2v2 matches</p></a>
+                    <a href="#" class="dropdown-item">Squad<p>4v4 team wars</p></a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link">
+                    Map Schedule
+                    <svg class="chevron" viewBox="0 0 24 24">
+                        <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </a>
+                <div class="dropdown-menu">
+                    <a href="#" class="dropdown-item">Bermuda</a>
+                    <a href="#" class="dropdown-item">Purgatory</a>
+                    <a href="#" class="dropdown-item">Kalahari</a>
+                    <a href="#" class="dropdown-item">Alpine</a>
+                </div>
+            </div>
+            <a href="#" class="nav-link">Live</a>
+            <a href="#" class="nav-link">Leaderboard</a>
+        </nav>
+        <div class="nav-container">
+            <div class="auth-buttons">
+                <a href="login.html" class="login-btn">Login</a>
+                <a href="register.html" class="registration-btn">Sign Up</a>
+            </div>
+            <div class="hamburger" id="hamburgerMobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== REGISTER PAGE ===== -->
+    <div class="auth-page">
+        <div class="bg-glow bg-glow-1"></div>
+        <div class="bg-glow bg-glow-2"></div>
+
+        <div class="auth-container">
+            <div class="auth-brand">
+                <div class="brand-icon"><i class="fas fa-user-plus"></i></div>
+                <h1>BATTLE <span>NEXUS</span></h1>
+                <p>Create your account and start competing in tournaments.</p>
+            </div>
+
+            <form class="auth-form" id="registerForm" novalidate>
+                <div class="form-group">
+                    <label for="registerFullName"><i class="fas fa-user"></i> Full Name</label>
+                    <input type="text" id="registerFullName" placeholder="Your full name" required
+                        autocomplete="name" />
+                    <div class="form-error" id="registerFullNameError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerUsername"><i class="fas fa-tag"></i> Username</label>
+                    <input type="text" id="registerUsername" placeholder="Choose a unique name" required
+                        autocomplete="username" />
+                    <div class="form-error" id="registerUsernameError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerEmail"><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="registerEmail" placeholder="your@email.com" required autocomplete="email" />
+                    <div class="form-error" id="registerEmailError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerPhone"><i class="fas fa-phone"></i> Phone (optional)</label>
+                    <input type="tel" id="registerPhone" placeholder="03XXXXXXXXX or +923XXXXXXXXX"
+                        autocomplete="tel" />
+                    <div class="form-error" id="registerPhoneError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerPassword"><i class="fas fa-lock"></i> Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="registerPassword" placeholder="Create a strong password" required
+                            autocomplete="new-password" />
+                        <button type="button" class="toggle-password" data-target="registerPassword"
+                            aria-label="Toggle password visibility">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="password-hint">Minimum 8 characters, 1 uppercase, 1 lowercase, 1 number</div>
+                    <div class="form-error" id="registerPasswordError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerConfirm"><i class="fas fa-check-circle"></i> Confirm Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="registerConfirm" placeholder="Confirm your password" required
+                            autocomplete="new-password" />
+                        <button type="button" class="toggle-password" data-target="registerConfirm"
+                            aria-label="Toggle password visibility">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="form-error" id="registerConfirmError"></div>
+                </div>
+
+                <div class="form-group terms-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="registerTerms" required />
+                        <span class="checkmark"></span>
+                        I agree to the <a href="./terms.html" class="terms-link">Terms &amp; Conditions</a> and <a
+                            href="#" class="terms-link">Privacy Policy</a>
+                    </label>
+                    <div class="form-error" id="registerTermsError"></div>
+                </div>
+
+                <div id="registerMessage"></div>
+
+                <button type="submit" class="btn-primary" id="registerBtn">
+                    <span class="btn-text"><i class="fas fa-arrow-right"></i> Sign Up</span>
+                    <span class="btn-loader"><i class="fas fa-spinner"></i></span>
+                </button>
+
+                <p class="auth-switch">
+                    Already have an account? <a href="login.html">Sign In</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== MOBILE OVERLAY ===== -->
+    <div class="mobile-overlay" id="mobileOverlay">
+        <div class="backdrop-close" id="backdropClose"></div>
+        <div class="mobile-menu-panel">
+            <div class="mobile-menu-header">
+                <span class="mobile-menu-title">MENU</span>
+                <span class="close-btn-panel" id="closeBtnPanel">&times;</span>
+            </div>
+            <div class="mobile-menu-body">
+                <div class="m-section"><a href="index.html" class="m-link"><i
+                            class="fas fa-home m-icon"></i><span>Home</span></a></div>
+                <div class="m-section" id="mobileTournaments">
+                    <a href="#" class="m-link" id="toggleTournaments"><i
+                            class="fas fa-trophy m-icon"></i><span>Tournaments</span></a>
+                    <div class="m-sub-container" id="tournamentsSub">
+                        <a href="#" class="m-sub" data-filter="format" data-value="solo">Solo</a>
+                        <a href="#" class="m-sub" data-filter="format" data-value="duo">Duo</a>
+                        <a href="#" class="m-sub" data-filter="format" data-value="squad">Squad</a>
+                    </div>
+                </div>
+                <div class="m-section" id="mobileSchedule">
+                    <a href="#" class="m-link" id="toggleSchedule"><i class="fas fa-map m-icon"></i><span>Map
+                            Schedule</span></a>
+                    <div class="m-sub-container" id="scheduleSub">
+                        <a href="#" class="m-sub" data-filter="map" data-value="bermuda">Bermuda</a>
+                        <a href="#" class="m-sub" data-filter="map" data-value="purgatory">Purgatory</a>
+                        <a href="#" class="m-sub" data-filter="map" data-value="kalahari">Kalahari</a>
+                        <a href="#" class="m-sub" data-filter="map" data-value="alpine">Alpine</a>
+                    </div>
+                </div>
+                <div class="m-section"><a href="#" class="m-link" id="mobileLive"><i
+                            class="fas fa-broadcast m-icon"></i><span>Live</span></a></div>
+                <div class="m-section"><a href="#" class="m-link" id="mobileLeaderboard"><i
+                            class="fas fa-chart-simple m-icon"></i><span>Leaderboard</span></a></div>
+            </div>
+            <div class="mobile-menu-footer" id="mobileAuthFooter">
+                <a href="login.html" class="login-btn mobile-auth-btn" id="mobileLoginBtn">Login</a>
+                <a href="register.html" class="registration-btn mobile-auth-btn" id="mobileRegisterBtn">Sign Up</a>
+                <a href="#" class="mobile-profile-link auth-hidden" id="mobileLogoutBtn"><i
+                        class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

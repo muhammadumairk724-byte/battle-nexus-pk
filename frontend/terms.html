@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Battle Nexus • Terms &amp; Conditions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Rajdhani:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ──────────────────────────────────────────────
+           ROOT VARIABLES (matches auth theme)
+           ────────────────────────────────────────────── */
+        :root {
+            --bg: #08090d;
+            --bg-2: #0e1018;
+            --surface: rgba(255, 255, 255, 0.03);
+            --surface-2: rgba(255, 255, 255, 0.06);
+            --border: rgba(255, 122, 24, 0.2);
+            --border-soft: rgba(255, 255, 255, 0.08);
+            --text: #f4f4f8;
+            --muted: #8b8fa3;
+            --primary: #ff7a18;
+            --primary-2: #ff4d00;
+            --accent: #00e5ff;
+            --danger: #ff4d6d;
+            --radius: 12px;
+            --radius-lg: 16px;
+            --shadow-glow: 0 20px 60px -20px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 122, 24, 0.05);
+        }
+
+        /* ──────────────────────────────────────────────
+           RESET & BASE
+           ────────────────────────────────────────────── */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Rajdhani', system-ui, sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        ::selection {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        /* ──────────────────────────────────────────────
+           BACKGROUND LAYERS
+           ────────────────────────────────────────────── */
+        .bg-grid {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-image:
+                linear-gradient(rgba(255, 122, 24, 0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 122, 24, 0.07) 1px, transparent 1px);
+            background-size: 44px 44px;
+            mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
+            pointer-events: none;
+        }
+
+        .bg-glow {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(600px circle at 15% 10%, rgba(255, 122, 24, 0.18), transparent 60%),
+                radial-gradient(500px circle at 85% 90%, rgba(0, 229, 255, 0.12), transparent 60%);
+        }
+
+        /* ──────────────────────────────────────────────
+           WATERMARK
+           ────────────────────────────────────────────── */
+        .brand-watermark {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: clamp(40px, 8vw, 100px);
+            letter-spacing: 8px;
+            color: rgba(255, 122, 24, 0.035);
+            text-transform: uppercase;
+            text-align: center;
+            line-height: 1;
+            user-select: none;
+            transform: rotate(-6deg) scale(1.1);
+            text-shadow: 0 0 60px rgba(255, 122, 24, 0.05);
+            animation: watermarkPulse 8s ease-in-out infinite;
+        }
+
+        .brand-watermark span {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(255, 122, 24, 0.06), rgba(0, 229, 255, 0.03));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            padding: 0 20px;
+        }
+
+        @keyframes watermarkPulse {
+
+            0%,
+            100% {
+                opacity: 0.5;
+                transform: rotate(-6deg) scale(1.1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: rotate(-6deg) scale(1.15);
+            }
+        }
+
+        /* ──────────────────────────────────────────────
+           PARTICLES
+           ────────────────────────────────────────────── */
+        .particles {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--primary);
+            opacity: 0;
+            animation: floatParticle 14s infinite ease-in-out;
+            box-shadow: 0 0 12px rgba(255, 122, 24, 0.3);
+        }
+
+        .particle:nth-child(1) {
+            left: 8%;
+            top: 15%;
+            animation-delay: 0s;
+            width: 6px;
+            height: 6px;
+        }
+
+        .particle:nth-child(2) {
+            left: 88%;
+            top: 10%;
+            animation-delay: 2.4s;
+            width: 3px;
+            height: 3px;
+        }
+
+        .particle:nth-child(3) {
+            left: 18%;
+            top: 80%;
+            animation-delay: 4.8s;
+            width: 5px;
+            height: 5px;
+            background: var(--accent);
+            box-shadow: 0 0 12px rgba(0, 229, 255, 0.3);
+        }
+
+        .particle:nth-child(4) {
+            left: 75%;
+            top: 85%;
+            animation-delay: 1.8s;
+            width: 4px;
+            height: 4px;
+        }
+
+        .particle:nth-child(5) {
+            left: 42%;
+            top: 6%;
+            animation-delay: 3.2s;
+            width: 7px;
+            height: 7px;
+            background: var(--accent);
+            box-shadow: 0 0 16px rgba(0, 229, 255, 0.25);
+        }
+
+        .particle:nth-child(6) {
+            left: 3%;
+            top: 45%;
+            animation-delay: 6s;
+            width: 4px;
+            height: 4px;
+        }
+
+        .particle:nth-child(7) {
+            left: 94%;
+            top: 50%;
+            animation-delay: 1s;
+            width: 5px;
+            height: 5px;
+        }
+
+        .particle:nth-child(8) {
+            left: 55%;
+            top: 95%;
+            animation-delay: 5s;
+            width: 3px;
+            height: 3px;
+            background: var(--accent);
+            box-shadow: 0 0 12px rgba(0, 229, 255, 0.2);
+        }
+
+        @keyframes floatParticle {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(0.5);
+            }
+
+            15% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+
+            85% {
+                opacity: 1;
+                transform: translateY(-40px) scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-80px) scale(0.3);
+            }
+        }
+
+        /* ──────────────────────────────────────────────
+           CONTAINER
+           ────────────────────────────────────────────── */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 40px 18px 60px;
+        }
+
+        /* ──────────────────────────────────────────────
+           HEADER
+           ────────────────────────────────────────────── */
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 800;
+            letter-spacing: 3px;
+            font-size: 12px;
+            padding: 6px 18px 6px 14px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            background: rgba(255, 122, 24, 0.05);
+            color: var(--primary);
+            margin-bottom: 18px;
+            box-shadow: 0 0 24px rgba(255, 122, 24, 0.2);
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .logo:hover {
+            box-shadow: 0 0 40px rgba(255, 122, 24, 0.4);
+            border-color: var(--primary);
+            transform: scale(1.02);
+        }
+
+        .logo .nexus-tag {
+            color: var(--accent);
+            font-weight: 300;
+            letter-spacing: 1px;
+            font-size: 9px;
+            opacity: 0.7;
+        }
+
+        .header h1 {
+            font-family: 'Orbitron', sans-serif;
+            margin: 0 0 8px;
+            font-size: clamp(26px, 5vw, 40px);
+            font-weight: 900;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 40px rgba(255, 122, 24, 0.4);
+            position: relative;
+            display: inline-block;
+        }
+
+        .header h1::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 10%;
+            width: 80%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), var(--accent), transparent);
+            opacity: 0.5;
+            animation: linePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes linePulse {
+
+            0%,
+            100% {
+                opacity: 0.2;
+                transform: scaleX(0.8);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scaleX(1);
+            }
+        }
+
+        .header .sub {
+            color: var(--muted);
+            margin: 12px 0 0;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .header .sub .highlight {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* ──────────────────────────────────────────────
+           TOP NAV
+           ────────────────────────────────────────────── */
+        .top-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 28px;
+            padding: 10px 16px;
+            background: var(--surface);
+            border: 1px solid var(--border-soft);
+            border-radius: var(--radius);
+            backdrop-filter: blur(8px);
+        }
+
+        .top-nav .nav-links {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .top-nav a {
+            color: var(--muted);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 9px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            padding: 4px 0;
+            border-bottom: 1px solid transparent;
+        }
+
+        .top-nav a:hover {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .top-nav a.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .top-nav .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: var(--accent);
+            text-transform: none;
+            border-bottom: none;
+            padding: 6px 14px;
+            background: rgba(0, 229, 255, 0.06);
+            border: 1px solid rgba(0, 229, 255, 0.15);
+            border-radius: 6px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .top-nav .back-btn:hover {
+            background: rgba(0, 229, 255, 0.12);
+            border-color: var(--accent);
+            color: #fff;
+            transform: translateX(-3px);
+        }
+
+        /* ──────────────────────────────────────────────
+           CARD
+           ────────────────────────────────────────────── */
+        .card {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 30px 34px 38px;
+            backdrop-filter: blur(12px);
+            box-shadow: var(--shadow-glow);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: var(--radius-lg);
+            padding: 1px;
+            background: conic-gradient(from 0deg, transparent, var(--primary), var(--accent), transparent, var(--primary), transparent);
+            background-size: 300% 300%;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0.15;
+            animation: borderSpin 8s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes borderSpin {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .card .corner {
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            border-color: var(--primary);
+            border-style: solid;
+            border-width: 0;
+            opacity: 0.12;
+            pointer-events: none;
+            transition: opacity 0.5s;
+        }
+
+        .card:hover .corner {
+            opacity: 0.3;
+        }
+
+        .card .corner-tl {
+            top: 10px;
+            left: 10px;
+            border-top-width: 2px;
+            border-left-width: 2px;
+        }
+
+        .card .corner-tr {
+            top: 10px;
+            right: 10px;
+            border-top-width: 2px;
+            border-right-width: 2px;
+        }
+
+        .card .corner-bl {
+            bottom: 10px;
+            left: 10px;
+            border-bottom-width: 2px;
+            border-left-width: 2px;
+        }
+
+        .card .corner-br {
+            bottom: 10px;
+            right: 10px;
+            border-bottom-width: 2px;
+            border-right-width: 2px;
+        }
+
+        /* ──────────────────────────────────────────────
+           TABLE OF CONTENTS
+           ────────────────────────────────────────────── */
+        .toc {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 6px;
+            margin-bottom: 30px;
+            padding: 16px 18px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-soft);
+            border-radius: var(--radius);
+        }
+
+        .toc a {
+            color: var(--muted);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 9px;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            padding: 5px 8px;
+            border-radius: 4px;
+            transition: all 0.3s;
+            text-align: center;
+            border: 1px solid transparent;
+        }
+
+        .toc a:hover {
+            color: var(--primary);
+            background: rgba(255, 122, 24, 0.06);
+            border-color: var(--border);
+        }
+
+        .toc a.active {
+            color: var(--primary);
+            background: rgba(255, 122, 24, 0.08);
+            border-color: var(--border);
+        }
+
+        .toc a .toc-num {
+            display: inline-block;
+            color: var(--accent);
+            font-weight: 900;
+            margin-right: 4px;
+            opacity: 0.6;
+        }
+
+        /* ──────────────────────────────────────────────
+           TERMS SECTIONS
+           ────────────────────────────────────────────── */
+        .terms-section {
+            margin-bottom: 30px;
+            padding-bottom: 26px;
+            border-bottom: 1px solid var(--border-soft);
+            transition: all 0.3s;
+            scroll-margin-top: 20px;
+        }
+
+        .terms-section:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .terms-section .section-header {
+            display: flex;
+            align-items: baseline;
+            gap: 14px;
+            margin-bottom: 12px;
+            cursor: default;
+        }
+
+        .terms-section .section-num {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 20px;
+            font-weight: 900;
+            color: var(--primary);
+            opacity: 0.3;
+            line-height: 1;
+            flex-shrink: 0;
+            min-width: 30px;
+            transition: opacity 0.3s;
+        }
+
+        .terms-section:hover .section-num {
+            opacity: 0.8;
+        }
+
+        .terms-section h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .terms-section h2 .accent-dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 12px rgba(0, 229, 255, 0.4);
+            margin-right: 10px;
+            animation: dotPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes dotPulse {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(0.8);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        .terms-section .section-body {
+            padding-left: 44px;
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .terms-section .section-body p {
+            margin-bottom: 10px;
+        }
+
+        .terms-section .section-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .terms-section .section-body strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .terms-section .section-body .highlight-text {
+            color: var(--accent);
+        }
+
+        .terms-section .section-body ul {
+            list-style: none;
+            padding: 0;
+            margin: 8px 0 12px;
+        }
+
+        .terms-section .section-body ul li {
+            padding: 4px 0 4px 26px;
+            position: relative;
+        }
+
+        .terms-section .section-body ul li::before {
+            content: '▸';
+            position: absolute;
+            left: 4px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .terms-section .section-body .card-inset {
+            margin: 12px 0 8px;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 2px solid var(--primary);
+            border-radius: 0 6px 6px 0;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .terms-section .section-body .card-inset strong {
+            color: var(--text);
+        }
+
+        .terms-section .section-body .card-inset .accent {
+            color: var(--accent);
+        }
+
+        /* ──────────────────────────────────────────────
+           FOOTER
+           ────────────────────────────────────────────── */
+        .footer-brand {
+            text-align: center;
+            margin-top: 36px;
+            padding: 18px 0 4px;
+            border-top: 1px solid var(--border-soft);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: var(--muted);
+            opacity: 0.5;
+            transition: opacity 0.4s;
+        }
+
+        .footer-brand:hover {
+            opacity: 0.9;
+        }
+
+        .footer-brand a {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-brand a:hover {
+            color: var(--accent);
+        }
+
+        .footer-brand .powered {
+            font-family: 'Rajdhani', sans-serif;
+            letter-spacing: 1px;
+            font-size: 9px;
+            opacity: 0.5;
+        }
+
+        /* ──────────────────────────────────────────────
+           RESPONSIVE
+           ────────────────────────────────────────────── */
+        @media (max-width: 700px) {
+            .card {
+                padding: 20px 18px 26px;
+            }
+
+            .terms-section .section-body {
+                padding-left: 0;
+                margin-top: 8px;
+            }
+
+            .terms-section .section-header {
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+
+            .terms-section .section-num {
+                font-size: 17px;
+                min-width: 22px;
+            }
+
+            .terms-section h2 {
+                font-size: 13px;
+            }
+
+            .top-nav {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+
+            .top-nav .nav-links {
+                justify-content: center;
+            }
+
+            .top-nav .back-btn {
+                justify-content: center;
+            }
+
+            .toc {
+                grid-template-columns: 1fr 1fr;
+                gap: 4px;
+                padding: 10px 12px;
+            }
+
+            .toc a {
+                font-size: 8px;
+                letter-spacing: 1px;
+                padding: 4px 6px;
+            }
+
+            .brand-watermark {
+                font-size: clamp(24px, 6vw, 40px);
+                letter-spacing: 4px;
+            }
+
+            .card .corner {
+                width: 12px;
+                height: 12px;
+            }
+
+            .card .corner-tl,
+            .card .corner-tr {
+                top: 5px;
+            }
+
+            .card .corner-bl,
+            .card .corner-br {
+                bottom: 5px;
+            }
+
+            .card .corner-tl,
+            .card .corner-bl {
+                left: 5px;
+            }
+
+            .card .corner-tr,
+            .card .corner-br {
+                right: 5px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .toc {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ─── BACKGROUND LAYERS ─── -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+
+    <!-- ─── WATERMARK ─── -->
+    <div class="brand-watermark" aria-hidden="true"><span>BATTLE NEXUS</span></div>
+
+    <!-- ─── PARTICLES ─── -->
+    <div class="particles" aria-hidden="true">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <!-- ─── MAIN ─── -->
+    <main class="container">
+
+        <!-- HEADER -->
+        <header class="header">
+            <a href="signup.html" class="logo">
+                🔥 FREE FIRE ARENA
+                <span class="nexus-tag">✦ BATTLE NEXUS</span>
+            </a>
+            <h1>TERMS &amp; CONDITIONS</h1>
+            <p class="sub">
+                Please read carefully before signing up.
+                <span class="highlight">Your participation is subject to these rules.</span>
+            </p>
+        </header>
+
+        <!-- TOP NAV -->
+        <nav class="top-nav">
+            <div class="nav-links">
+                <a href="#section-1" class="active">01. General</a>
+                <a href="#section-2">02. Eligibility</a>
+                <a href="#section-3">03. Account</a>
+                <a href="#section-4">04. Privacy</a>
+                <a href="#section-5">05. Conduct</a>
+                <a href="#section-6">06. Liability</a>
+            </div>
+            <a href="login.html" class="back-btn">← Back to Sign Up</a>
+        </nav>
+
+        <!-- MAIN CARD -->
+        <div class="card">
+            <span class="corner corner-tl"></span>
+            <span class="corner corner-tr"></span>
+            <span class="corner corner-bl"></span>
+            <span class="corner corner-br"></span>
+
+            <!-- Table of Contents -->
+            <div class="toc" role="navigation" aria-label="Table of Contents">
+                <a href="#section-1"><span class="toc-num">01</span> General</a>
+                <a href="#section-2"><span class="toc-num">02</span> Eligibility</a>
+                <a href="#section-3"><span class="toc-num">03</span> Account</a>
+                <a href="#section-4"><span class="toc-num">04</span> Privacy</a>
+                <a href="#section-5"><span class="toc-num">05</span> Conduct</a>
+                <a href="#section-6"><span class="toc-num">06</span> Liability</a>
+            </div>
+
+            <!-- ─── SECTION 1 ─── -->
+            <section id="section-1" class="terms-section">
+                <div class="section-header">
+                    <span class="section-num">01</span>
+                    <h2><span class="accent-dot"></span>General Terms</h2>
+                </div>
+                <div class="section-body">
+                    <p>
+                        By creating an account on <strong>Battle Nexus</strong>, you agree to be bound
+                        by these Terms &amp; Conditions. These rules are designed to ensure a fair, secure, and
+                        enjoyable experience for all members of our community.
+                    </p>
+                    <p>
+                        <strong>Battle Nexus</strong> (hereafter "the Platform") reserves the right to amend, update,
+                        or modify these terms at any time. Users will be notified of significant changes via
+                        email or platform notification.
+                    </p>
+                    <div class="card-inset">
+                        <strong>📌 Effective Date:</strong> <span class="accent">June 28, 2026</span> &nbsp;•&nbsp;
+                        <strong>Version:</strong> <span class="accent">2.1</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ─── SECTION 2 ─── -->
+            <section id="section-2" class="terms-section">
+                <div class="section-header">
+                    <span class="section-num">02</span>
+                    <h2><span class="accent-dot"></span>Eligibility &amp; Account Requirements</h2>
+                </div>
+                <div class="section-body">
+                    <p>
+                        To create an account on Battle Nexus, you must meet the following criteria:
+                    </p>
+                    <ul>
+                        <li>Must be at least <strong>13 years</strong> of age (or 16 for tournament participation).</li>
+                        <li>Must provide a valid <strong>email address</strong> for verification.</li>
+                        <li>Must provide accurate and complete information during registration.</li>
+                        <li>Each individual may create <strong>only one</strong> account.</li>
+                        <li>
+                            <strong>Region:</strong> Open to all regions, but tournaments are hosted on
+                            <span class="highlight-text">Pakistan / SEA</span> servers.
+                        </li>
+                    </ul>
+                    <p>
+                        The Platform reserves the right to verify any user's identity and eligibility
+                        at any time. Failure to provide proof may result in account suspension.
+                    </p>
+                </div>
+            </section>
+
+            <!-- ─── SECTION 3 ─── -->
+            <section id="section-3" class="terms-section">
+                <div class="section-header">
+                    <span class="section-num">03</span>
+                    <h2><span class="accent-dot"></span>Account Security &amp; Responsibilities</h2>
+                </div>
+                <div class="section-body">
+                    <p>
+                        You are solely responsible for maintaining the confidentiality of your account credentials.
+                        The following rules apply:
+                    </p>
+                    <ul>
+                        <li><strong>Password:</strong> Must be at least 8 characters with a mix of letters and numbers.
+                        </li>
+                        <li><strong>Sharing:</strong> Do not share your account credentials with anyone.</li>
+                        <li><strong>Unauthorized Access:</strong> Immediately notify the Platform if you suspect
+                            unauthorized access.</li>
+                        <li><strong>Activity:</strong> You are responsible for all activity conducted through your
+                            account.</li>
+                    </ul>
+                    <p>
+                        Battle Nexus is not liable for any loss or damage arising from your failure to protect
+                        your account information.
+                    </p>
+                    <div class="card-inset">
+                        <strong>🔐 Security Tip:</strong> Use a unique, strong password and enable
+                        <span class="accent">two-factor authentication</span> when available.
+                    </div>
+                </div>
+            </section>
+
+            <!-- ─── SECTION 4 ─── -->
+            <section id="section-4" class="terms-section">
+                <div class="section-header">
+                    <span class="section-num">04</span>
+                    <h2><span class="accent-dot"></span>Privacy &amp; Data Usage</h2>
+                </div>
+                <div class="section-body">
+                    <p>
+                        Battle Nexus values your privacy. By creating an account, you agree to our data collection
+                        and usage practices:
+                    </p>
+                    <ul>
+                        <li><strong>Data Collected:</strong> Email, username, IP address, and tournament participation
+                            history.</li>
+                        <li><strong>Usage:</strong> Data is used for account management, tournament organization, and
+                            platform improvements.</li>
+                        <li><strong>Sharing:</strong> We do not sell or share your data with third parties without
+                            consent.</li>
+                        <li><strong>Cookies:</strong> We use essential cookies to improve your browsing experience.</li>
+                    </ul>
+                    <p>
+                        You have the right to request data deletion or account closure at any time by contacting
+                        our support team.
+                    </p>
+                    <div class="card-inset">
+                        <strong>🛡️ GDPR Compliance:</strong> Battle Nexus is committed to protecting your data in
+                        accordance with <span class="accent">GDPR</span> and applicable privacy laws.
+                    </div>
+                </div>
+            </section>
+
+            <!-- ─── SECTION 5 ─── -->
+            <section id="section-5" class="terms-section">
+                <div class="section-header">
+                    <span class="section-num">05</span>
+                    <h2><span class="accent-dot"></span>User Conduct &amp; Community Guidelines</h2>
+                </div>
+                <div class="section-body">
+                    <p>
+                        All users are expected to maintain <strong>respectful</strong> and
+                        <strong>professional</strong> conduct toward other members, admins, and organizers.
+                    </p>
+                    <p>
+                        The following actions are strictly prohibited:
+                    </p>
+                    <ul>
+                        <li>Harassment, bullying, or discriminatory behavior of any kind.</li>
+                        <li>Spamming, phishing, or distributing malicious content.</li>
+                        <li>Impersonating other users or platform staff.</li>
+                        <li>Exploiting bugs or vulnerabilities in the platform.</li>
+                        <li>Using the platform for unauthorized commercial activities.</li>
+                    </ul>
+                    <p>
+                        Violations will result in <span class="highlight-text">account suspension or termination</span>
+                        and may be reported to relevant authorities.
+                    </p>
+                </div>
+            </section>
+
+            <!-- ─── SECTION 6 ─── -->
+            <section id="section-6" class="terms-section">
+                <div class="section-header">
+                    <span class="section-num">06</span>
+                    <h2><span class="accent-dot"></span>Liability &amp; Disclaimer</h2>
+                </div>
+                <div class="section-body">
+                    <p>
+                        <strong>Battle Nexus</strong> and its organizers are not liable for:
+                    </p>
+                    <ul>
+                        <li>Any <strong>technical issues</strong> (device, network, or server problems).</li>
+                        <li>Loss or theft of in-game items, currency, or accounts.</li>
+                        <li>Any <strong>injuries</strong> or damages arising from platform use or tournament
+                            participation.</li>
+                        <li>Any <strong>third-party actions</strong> or disputes between users.</li>
+                    </ul>
+                    <p>
+                        By creating an account, you acknowledge that you use the platform <strong>at your own
+                            risk</strong>
+                        and agree to hold the Platform harmless from any claims or damages.
+                    </p>
+                    <div class="card-inset">
+                        <strong>⚡ Dispute Resolution:</strong> Any disputes will be resolved by the
+                        <span class="accent">Battle Nexus Admin Team</span>. Their decision is final and binding.
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer-brand">
+            <span class="powered">⚡ powered by</span><br />
+            <a href="https://battlenexus.netlify.app" target="_blank" rel="noopener">BATTLE NEXUS</a>
+            <span style="opacity:0.3;margin:0 8px;">•</span>
+            <span style="font-family:'Rajdhani',sans-serif;letter-spacing:1px;font-weight:400;">esports · tournaments ·
+                community</span>
+        </div>
+
+    </main>
+
+    <script>
+        (function () {
+            'use strict';
+
+            // ─── TOC & NAV SMOOTH SCROLL ───
+            const allNavLinks = document.querySelectorAll('.toc a, .top-nav a[href^="#"]');
+
+            allNavLinks.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        allNavLinks.forEach(l => l.classList.remove('active'));
+                        this.classList.add('active');
+                    }
+                });
+            });
+
+            // ─── HIGHLIGHT ACTIVE SECTION ON SCROLL ───
+            const sections = document.querySelectorAll('.terms-section');
+            const navLinks = document.querySelectorAll('.toc a, .top-nav a[href^="#"]');
+
+            function updateActiveSection() {
+                let currentId = '';
+                sections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top <= 120) {
+                        currentId = section.id;
+                    }
+                });
+                navLinks.forEach(link => {
+                    const href = link.getAttribute('href');
+                    link.classList.toggle('active', href === '#' + currentId);
+                });
+            }
+
+            let ticking = false;
+            window.addEventListener('scroll', function () {
+                if (!ticking) {
+                    window.requestAnimationFrame(function () {
+                        updateActiveSection();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+
+            window.addEventListener('load', updateActiveSection);
+
+            console.log('📄 Battle Nexus Terms loaded.');
+        })();
+    </script>
+
+</body>
+
+</html>

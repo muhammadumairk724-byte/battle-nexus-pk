@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verify Email · Battle Nexus</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <div class="auth-page">
+        <div class="auth-container">
+            <div class="auth-brand">
+                <div class="brand-icon"><i class="fas fa-envelope"></i></div>
+                <h1>EMAIL <span>VERIFICATION</span></h1>
+                <div id="message" style="margin-top:20px; text-align:center; font-size:16px;">Verifying your email...</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get('token');
+        const API_BASE = 'http://localhost:5002/api';
+
+        if (!token) {
+            document.getElementById('message').innerHTML = '❌ Invalid verification link.';
+        } else {
+            fetch(API_BASE + '/auth/verify-email?token=' + token)
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('message').innerHTML = data.error
+                        ? '❌ ' + data.error
+                        : '✅ ' + data.message + ' <br><a href="login.html">Login now</a>';
+                })
+                .catch(err => {
+                    document.getElementById('message').innerHTML = '❌ Server error. Please try again.';
+                });
+        }
+    </script>
+</body>
+</html>

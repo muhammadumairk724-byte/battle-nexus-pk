@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Battle Nexus • Tournament Registration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="register.css" />
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <a href="index.html" target="_blank" class="logo">FREE FIRE</a>
+        <nav class="navbar">
+            <a href="index.html" class="nav-link">Home</a>
+            <div class="nav-item">
+                <a href="#" class="nav-link">Tournaments<svg class="chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
+                <div class="dropdown-menu">
+                    <a href="#" class="dropdown-item" data-filter="format" data-value="solo">Solo<p>1v1 battles</p></a>
+                    <a href="#" class="dropdown-item" data-filter="format" data-value="duo">Duo<p>2v2 matches</p></a>
+                    <a href="#" class="dropdown-item" data-filter="format" data-value="squad">Squad<p>4v4 team wars</p></a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link">Map Schedule<svg class="chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
+                <div class="dropdown-menu">
+                    <a href="#" class="dropdown-item" data-filter="map" data-value="bermuda">Bermuda</a>
+                    <a href="#" class="dropdown-item" data-filter="map" data-value="purgatory">Purgatory</a>
+                    <a href="#" class="dropdown-item" data-filter="map" data-value="kalahari">Kalahari</a>
+                    <a href="#" class="dropdown-item" data-filter="map" data-value="alpine">Alpine</a>
+                </div>
+            </div>
+            <a href="#" class="nav-link" id="navLive">Live</a>
+            <a href="#leaderboard" class="nav-link" id="navLeaderboard">Leaderboard</a>
+        </nav>
+        <div class="nav-container">
+            <div class="icon-wrapper" id="bellIcon">
+                <svg class="icon bell-icon" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg>
+                <div class="status-dot"></div>
+            </div>
+            <div class="icon-wrapper" id="profileIcon">
+                <svg class="icon user-icon" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
+            </div>
+            <div class="auth-buttons" id="authButtons">
+                <a href="login.html" class="login-btn">Login</a>
+                <a href="register.html" class="registration-btn">Sign Up</a>
+            </div>
+            <div class="hamburger" id="hamburgerMobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== NOTIFICATION PANEL ===== -->
+    <div class="notification-panel" id="notificationPanel">
+        <div class="notification-header"><span>Notifications</span><button class="close-notification" id="closeNotification">&times;</button></div>
+        <div class="notification-list" id="notificationList"></div>
+    </div>
+
+    <!-- ===== PROFILE DROPDOWN ===== -->
+    <div class="profile-dropdown" id="profileDropdown">
+        <a href="dashboard.html" class="dropdown-item-link" data-protected="true"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="my-tournaments.html" class="dropdown-item-link" data-protected="true"><i class="fas fa-trophy"></i> My Tournaments</a>
+        <a href="profile.html" class="dropdown-item-link" data-protected="true"><i class="fas fa-user"></i> My Profile</a>
+        <a href="wallet.html" class="dropdown-item-link" data-protected="true"><i class="fas fa-wallet"></i> Wallet</a>
+        <a href="settings.html" class="dropdown-item-link" data-protected="true"><i class="fas fa-cog"></i> Settings</a>
+        <div class="dropdown-divider"></div>
+        <a href="admin-panel.html" class="dropdown-item-link" id="adminPanelLink" style="display:none; color:#ff7b00;"><i class="fas fa-crown"></i> Admin Panel</a>
+        <div class="dropdown-divider"></div>
+        <a href="#" class="dropdown-item-link logout-item" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+
+    <!-- ===== MOBILE OVERLAY ===== -->
+    <div class="mobile-overlay" id="mobileOverlay">
+        <div class="backdrop-close" id="backdropClose"></div>
+        <div class="mobile-menu-panel">
+            <div class="mobile-menu-header"><span class="mobile-menu-title">MENU</span><span class="close-btn-panel" id="closeBtnPanel">&times;</span></div>
+            <div class="mobile-menu-body">
+                <div class="m-section"><a href="index.html" target="_blank" class="m-link"><i class="fas fa-home m-icon"></i><span>Home</span></a></div>
+                <div class="m-section" id="mobileTournaments">
+                    <a href="#" class="m-link" id="toggleTournaments"><i class="fas fa-trophy m-icon"></i><span>Tournaments</span></a>
+                    <div class="m-sub-container" id="tournamentsSub">
+                        <a href="#" class="m-sub" data-filter="format" data-value="solo">Solo</a>
+                        <a href="#" class="m-sub" data-filter="format" data-value="duo">Duo</a>
+                        <a href="#" class="m-sub" data-filter="format" data-value="squad">Squad</a>
+                    </div>
+                </div>
+                <div class="m-section" id="mobileSchedule">
+                    <a href="#" class="m-link" id="toggleSchedule"><i class="fas fa-map m-icon"></i><span>Map Schedule</span></a>
+                    <div class="m-sub-container" id="scheduleSub">
+                        <a href="#" class="m-sub" data-filter="map" data-value="bermuda">Bermuda</a>
+                        <a href="#" class="m-sub" data-filter="map" data-value="purgatory">Purgatory</a>
+                        <a href="#" class="m-sub" data-filter="map" data-value="kalahari">Kalahari</a>
+                        <a href="#" class="m-sub" data-filter="map" data-value="alpine">Alpine</a>
+                    </div>
+                </div>
+                <div class="m-section"><a href="#" class="m-link" id="mobileLive"><i class="fas fa-broadcast m-icon"></i><span>Live</span></a></div>
+                <div class="m-section"><a href="#leaderboard" class="m-link" id="mobileLeaderboard"><i class="fas fa-chart-simple m-icon"></i><span>Leaderboard</span></a></div>
+                <div class="m-section"><a href="admin-panel.html" class="m-link" id="mobileAdminLink" style="display:none;"><i class="fas fa-crown m-icon" style="color:#ff7b00;"></i><span style="color:#ff7b00;">Admin Panel</span></a></div>
+            </div>
+            <div class="mobile-menu-footer" id="mobileAuthFooter">
+                <a href="login.html" class="login-btn mobile-auth-btn" id="mobileLoginBtn">Login</a>
+                <a href="register.html" class="registration-btn mobile-auth-btn" id="mobileRegisterBtn">Sign Up</a>
+                <a href="#" class="mobile-profile-link auth-hidden" id="mobileLogoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== LOGIN REQUIRED MODAL ===== -->
+    <div class="login-required-overlay" id="loginRequiredModal">
+        <div class="login-required-modal">
+            <div class="login-required-icon"><i class="fas fa-lock"></i></div>
+            <h2>Login Required</h2>
+            <p>You need to log in before accessing this feature.</p>
+            <div class="login-required-buttons">
+                <a href="login.html" class="btn-primary-modal">Login</a>
+                <a href="register.html" class="btn-secondary-modal">Sign Up</a>
+                <button class="btn-cancel-modal" id="cancelLoginRequired">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MAIN REGISTRATION FORM ===== -->
+    <div class="register-page">
+        <div class="register-container">
+
+            <!-- Brand Header -->
+            <div class="register-brand">
+                <div class="brand-icon"><i class="fas fa-trophy"></i></div>
+                <h1>TOURNAMENT <span>REGISTRATION</span></h1>
+                <p>Fill in your details to join the tournament</p>
+            </div>
+
+            <form id="regForm" class="register-card" novalidate>
+                <span class="corner corner-tl"></span>
+                <span class="corner corner-tr"></span>
+                <span class="corner corner-bl"></span>
+                <span class="corner corner-br"></span>
+
+                <!-- Player Info -->
+                <h3 class="section-title"><span class="accent-dot"></span> Player Information</h3>
+                <div class="grid-2">
+                    <div class="field-group">
+                        <label for="playerName">Player Name / IGN *</label>
+                        <input type="text" id="playerName" name="playerName" placeholder="Your in-game name" required />
+                    </div>
+                    <div class="field-group">
+                        <label for="uid1">Free Fire UID *</label>
+                        <input type="text" id="uid1" name="uid1" placeholder="123456789" inputmode="numeric" required />
+                        <small class="err" id="uid1Err"></small>
+                    </div>
+                    <div class="field-group">
+                        <label for="whatsapp">WhatsApp Number *</label>
+                        <input type="tel" id="whatsapp" name="whatsapp" placeholder="03XXXXXXXXX" required />
+                        <small class="err" id="waErr"></small>
+                    </div>
+                    <div class="field-group">
+                        <label for="email">Email (optional)</label>
+                        <input type="email" id="email" name="email" placeholder="you@example.com" />
+                    </div>
+                </div>
+
+                <!-- ===== GAME FORMAT – with format lock container ===== -->
+                <h3 class="section-title"><span class="accent-dot"></span> Game Format</h3>
+                <div id="formatLockContainer"></div>
+                <!-- ^ this is where the locked format label will appear -->
+                <div class="mode-grid" id="modeGrid">
+                    <label class="mode-card">
+                        <input type="radio" name="mode" value="solo" checked />
+                        <span class="mode-inner"><span class="mode-title">SOLO</span><span class="mode-desc">1 Player</span></span>
+                    </label>
+                    <label class="mode-card">
+                        <input type="radio" name="mode" value="duo" />
+                        <span class="mode-inner"><span class="mode-title">DUO</span><span class="mode-desc">2 Players</span></span>
+                    </label>
+                    <label class="mode-card">
+                        <input type="radio" name="mode" value="squad" />
+                        <span class="mode-inner"><span class="mode-title">SQUAD</span><span class="mode-desc">4 Players</span></span>
+                    </label>
+                </div>
+
+                <!-- Team Details -->
+                <div id="teamDetails" class="team-section" hidden>
+                    <h3 class="section-title"><span class="accent-dot"></span> Team Details</h3>
+                    <div class="field-group" id="teamNameWrap">
+                        <label for="teamName"><span id="teamNameLabel">Team Name</span></label>
+                        <input type="text" id="teamName" name="teamName" placeholder="Team Phoenix" />
+                    </div>
+                    <div class="grid-2">
+                        <div class="field-group" id="uid2Wrap" hidden>
+                            <label for="uid2">Player 2 UID *</label>
+                            <input type="text" id="uid2" name="uid2" placeholder="Player 2 UID" inputmode="numeric" />
+                            <small class="err" id="uid2Err"></small>
+                        </div>
+                        <div class="field-group" id="uid3Wrap" hidden>
+                            <label for="uid3">Player 3 UID *</label>
+                            <input type="text" id="uid3" name="uid3" placeholder="Player 3 UID" inputmode="numeric" />
+                            <small class="err" id="uid3Err"></small>
+                        </div>
+                        <div class="field-group" id="uid4Wrap" hidden>
+                            <label for="uid4">Player 4 UID *</label>
+                            <input type="text" id="uid4" name="uid4" placeholder="Player 4 UID" inputmode="numeric" />
+                            <small class="err" id="uid4Err"></small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment -->
+                <h3 class="section-title"><span class="accent-dot"></span> Payment Method</h3>
+                <div class="pay-grid">
+                    <label class="pay-card">
+                        <input type="radio" name="payment" value="easypaisa" checked />
+                        <span class="pay-inner">
+                            <span class="pay-title">EasyPaisa</span>
+                            <span class="pay-num">0329 3023402</span>
+                        </span>
+                    </label>
+                    <label class="pay-card">
+                        <input type="radio" name="payment" value="jazzcash" />
+                        <span class="pay-inner">
+                            <span class="pay-title">JazzCash</span>
+                            <span class="pay-num">0329 3023402</span>
+                        </span>
+                    </label>
+                </div>
+
+                <div class="grid-2" style="margin-top:14px">
+                    <div class="field-group">
+                        <label for="txnId">Transaction ID *</label>
+                        <input type="text" id="txnId" name="txnId" placeholder="e.g. 12345678901" required />
+                    </div>
+                    <div class="field-group">
+                        <label>Payment Screenshot</label>
+                        <label class="upload">
+                            <input type="file" id="proofFile" name="proofFile" accept="image/*" />
+                            <span id="uploadText">📷 Upload Screenshot</span>
+                        </label>
+                    </div>
+                </div>
+                <div id="previewWrap" hidden><img id="preview" alt="proof" /></div>
+
+                <!-- Notice -->
+                <div class="notice">
+                    <span class="notice-icon">⚠</span>
+                    <p><strong>Important:</strong> Make sure all information is correct. Any wrong UID, wrong payment details, or false information will be the player's own responsibility. Registration verification depends on provided details.</p>
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">SUBMIT REGISTRATION</button>
+            </form>
+
+            <!-- Success -->
+            <section id="successStep" class="success-card" hidden>
+                <span class="corner corner-tl"></span>
+                <span class="corner corner-tr"></span>
+                <span class="corner corner-bl"></span>
+                <span class="corner corner-br"></span>
+                <div class="check">✓</div>
+                <h2>Registration Submitted</h2>
+                <p>Your registration has been sent for admin approval.<br />You will be notified once the admin approves or rejects it.</p>
+                <div class="admin-note">📩 Admin will verify your details and approve your registration.</div>
+                <br>
+                <a href="index.html" class="btn-home">Go to Home</a>
+            </section>
+
+            <!-- Footer Brand -->
+            <div class="register-footer-brand">
+                <span class="powered">⚡ powered by</span><br />
+                <a href="https://battlenexus.netlify.app" target="_blank" rel="noopener">BATTLE NEXUS</a>
+                <span class="sep">•</span>
+                <span class="tagline">esports · tournaments · community</span>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="script.js"></script>
+    <script src="register.js"></script>
+</body>
+</html>
