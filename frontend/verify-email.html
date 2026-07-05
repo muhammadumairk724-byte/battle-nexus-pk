@@ -19,7 +19,7 @@
     <script>
         const params = new URLSearchParams(window.location.search);
         const token = params.get('token');
-        const API_BASE = 'http://localhost:5002/api';
+      const API_BASE = 'https://battle-nexus-pk.vercel.app/api';
 
         if (!token) {
             document.getElementById('message').innerHTML = '❌ Invalid verification link.';

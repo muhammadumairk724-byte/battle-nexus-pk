@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    const API_BASE = typeof window.API_BASE !== 'undefined' ? window.API_BASE : 'http://localhost:5002/api';
+const API_BASE = 'https://battle-nexus-pk.vercel.app/api';
 
     function getToken() {
         return localStorage.getItem('battleNexusAccessToken') || sessionStorage.getItem('battleNexusAccessToken');

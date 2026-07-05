@@ -4,9 +4,7 @@
     // ============================================================
     // ===== CONFIGURATION =====
     // ============================================================
-    const API_BASE = typeof window.API_BASE !== 'undefined' ? window.API_BASE : 'http://localhost:5002/api';
-
-    // ============================================================
+   const API_BASE = 'https://battle-nexus-pk.vercel.app/api';
     // ===== TOKEN MANAGEMENT =====
     // ============================================================
     function getAccessToken() {
