@@ -1,41 +1,39 @@
 const express = require('express');
-const { initDB, seedAdmin } = require('../config/db');
+const { initDB, seedAdmin, getPool } = require('../config/db');
 
 const app = express();
+
+// ─── Middleware ───
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // ─── State ───
 let dbReady = false;
 let dbError = null;
 
-// ─── Initialize DB asynchronously (non‑blocking) ───
+// ─── Initialize DB asynchronously ───
 (async function init() {
   try {
     await initDB();
-    await seedAdmin(); // optional – if this fails, the app still works
+    await seedAdmin();
     dbReady = true;
     console.log('✅ Database ready');
   } catch (err) {
     dbError = err.message;
     console.error('❌ DB init error:', err.message);
-    // The function stays alive – no crash
   }
 })();
 
-// ─── Health endpoint ───
+// ─── Health & Test Endpoints ───
 app.get('/api/health', (req, res) => {
   res.json({ status: dbReady ? 'ok' : 'initializing' });
 });
 
-// ─── DB test endpoint ───
 app.get('/api/db-test', async (req, res) => {
-  if (dbError) {
-    return res.status(500).json({ error: 'DB init failed: ' + dbError });
-  }
-  if (!dbReady) {
-    return res.status(503).json({ error: 'Database is initializing, try again in a moment.' });
-  }
+  if (dbError) return res.status(500).json({ error: 'DB init failed: ' + dbError });
+  if (!dbReady) return res.status(503).json({ error: 'DB initializing...' });
   try {
-    const pool = require('../config/db').getPool();
+    const pool = getPool();
     const [rows] = await pool.query('SELECT 1 as test');
     res.json({ success: true, result: rows });
   } catch (err) {
@@ -43,9 +41,31 @@ app.get('/api/db-test', async (req, res) => {
   }
 });
 
-// ─── Simple test (no DB) ───
-app.get('/api/test', (req, res) => {
-  res.json({ message: 'API is working!' });
+// ─── YOUR ROUTES ───
+const authRoutes = require('../routes/authRoutes');
+const adminRoutes = require('../routes/adminRoutes');
+const tournamentRoutes = require('../routes/tournamentRoutes');
+const leaderboardRoutes = require('../routes/leaderboardRoutes');
+const notificationRoutes = require('../routes/notificationRoutes');
+const userRoutes = require('../routes/userRoutes');
+const userStatsRoutes = require('../routes/userStatsRoutes');
+const userTournamentsRoutes = require('../routes/userTournamentsRoutes');
+const walletRoutes = require('../routes/walletRoutes');
+
+app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/tournaments', tournamentRoutes);
+app.use('/api/leaderboard', leaderboardRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/user/stats', userStatsRoutes);
+app.use('/api/user/tournaments', userTournamentsRoutes);
+app.use('/api/user/wallet', walletRoutes);
+
+// ─── Error Handler ───
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ error: err.message });
 });
 
 module.exports = app;
