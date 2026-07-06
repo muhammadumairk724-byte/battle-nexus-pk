@@ -1,0 +1,114 @@
+# ==============================================================
+# .gitignore for Battle Nexus (Frontend + Backend)
+# ==============================================================
+
+# ===== Node.js =====
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ===== Environment variables =====
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+.env.test
+
+# ===== Deployment caches =====
+.vercel
+.vercel_cache
+.netlify
+.netlify/plugins
+.cache
+dist/
+build/
+out/
+.parcel-cache
+
+# ===== Databases =====
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+
+# ===== Logs =====
+logs/
+*.log
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+lerna-debug.log*
+
+# ===== OS files =====
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ===== IDE / Editors =====
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+*.iml
+.tern-port
+.atom/
+.sublime-project
+.sublime-workspace
+.vim/
+*.tmp
+
+# ===== Secrets / keys =====
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+secrets.json
+secrets.yml
+*.secret
+
+# ===== Backend specific =====
+uploads/
+temp/
+coverage/
+.nyc_output
+reports/
+*.pid
+*.seed
+*.pid.lock
+
+# ===== Frontend specific =====
+/public/
+/dist/
+/build/
+*.min.js
+*.min.css
+*.map
+*.sourcemap
+
+# ===== Misc =====
+*.swp
+*.swo
+*.bak
+*.orig
+*.rej
+.git/
+.svn/
+.hg/
+.gitattributes
+.gitmodules
+.gitkeep
+*~
